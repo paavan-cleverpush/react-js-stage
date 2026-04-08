@@ -3,5 +3,5 @@ import App from './App';
 
 test('renders Paavan storefront', async () => {
   render(<App />);
-  expect(await screen.findByText(/ordstrand/i)).toBeInTheDocument();
+  expect(await screen.findByText(/aavan/i)).toBeInTheDocument();
 });

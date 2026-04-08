@@ -84,8 +84,8 @@ function SiteHeader() {
       </div>
       <div className="main-header wrap">
         <Link to="/" className="logo">
-          <span className="logo-mark">N</span>
-          <span className="logo-text">ordstrand</span>
+          <span className="logo-mark">P</span>
+          <span className="logo-text">aavan</span>
         </Link>
         <form className="search-bar" role="search" onSubmit={onSearch}>
           <input
