@@ -15,7 +15,17 @@ export function ProductsProvider({ children }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${process.env.PUBLIC_URL || ''}/products.json`)
+    const raw = process.env.PUBLIC_URL || '';
+    let path = `${raw.replace(/\/$/, '')}/products.json`.replace(/\/+/g, '/');
+    if (path.startsWith('http')) {
+      try {
+        path = new URL(path).pathname || '/products.json';
+      } catch {
+        path = '/products.json';
+      }
+    }
+    if (!path.startsWith('/')) path = `/${path}`;
+    fetch(path)
       .then((r) => {
         if (!r.ok) throw new Error('Failed to load catalogue');
         return r.json();
