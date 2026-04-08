@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
@@ -17,6 +18,11 @@ import './paavan.css';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    document.body.classList.add('react-app-mounted');
+    return () => document.body.classList.remove('react-app-mounted');
+  }, []);
+
   return (
     <BrowserRouter>
       <ProductsProvider>

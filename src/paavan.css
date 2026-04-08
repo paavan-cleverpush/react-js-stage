@@ -876,3 +876,12 @@ main.site-main {
 .crawl-fallback-noscript ul {
   padding-left: 1.25rem;
 }
+
+/* Outside #root: hidden after React loads so users do not see duplicate chrome */
+.static-storefront-fallback {
+  flex: 0 0 auto;
+}
+
+body.react-app-mounted #static-storefront-fallback {
+  display: none !important;
+}

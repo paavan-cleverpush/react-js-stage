@@ -1,3 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# Allow Pinterest and other crawlers (merchant / Rich Pins review)
+User-agent: Pinterestbot
+Allow: /
+
 User-agent: *
-Disallow:
+Allow: /
