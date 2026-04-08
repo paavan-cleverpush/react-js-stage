@@ -14,13 +14,19 @@
   <script src="https://static.cleverpush.com/sdk/cleverpush.js"></script>
   <script src="https://static.cleverpush.com/channel/loader/mej3qrfkS5mNXysgr.js" async></script>
   <script>
-    CleverPush.init({
-      channelId: 'mej3qrfkS5mNXysgr',
-      apiEndpoint: 'https://api.cleverpush.com',
-      loadIframe: false,
-      autoRegister: true,
-      showNotificationBell: true,
-    });
+    try {
+      if (typeof CleverPush !== 'undefined') {
+        CleverPush.init({
+          channelId: 'mej3qrfkS5mNXysgr',
+          apiEndpoint: 'https://api.cleverpush.com',
+          loadIframe: false,
+          autoRegister: true,
+          showNotificationBell: true,
+        });
+      }
+    } catch (e) {
+      console.warn('CleverPush.init failed', e);
+    }
   </script>
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Paavan — Electronics, Fashion, Home &amp; more</title>

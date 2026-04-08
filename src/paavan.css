@@ -810,6 +810,13 @@ main.site-main {
   flex-direction: column;
 }
 
+/* Sit above CleverPush bell / overlays so the shop is never covered */
+.App {
+  position: relative;
+  z-index: 2;
+  background: var(--bg-page, #eaeded);
+}
+
 .App .site-main {
   flex: 1;
 }
