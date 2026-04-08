@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
@@ -18,27 +17,6 @@ import './paavan.css';
 import './App.css';
 
 function App() {
-  // Only hide the static crawl block once the real app shell exists. Otherwise
-  // display:none runs while #root is still empty → gray screen on some prod timings.
-  useEffect(() => {
-    let cancelled = false;
-    let raf = 0;
-    function tick() {
-      if (cancelled) return;
-      if (document.querySelector('#root .App')) {
-        document.body.classList.add('react-app-mounted');
-        return;
-      }
-      raf = requestAnimationFrame(tick);
-    }
-    raf = requestAnimationFrame(tick);
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(raf);
-      document.body.classList.remove('react-app-mounted');
-    };
-  }, []);
-
   return (
     <BrowserRouter>
       <ProductsProvider>
