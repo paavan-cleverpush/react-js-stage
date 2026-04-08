@@ -20,7 +20,7 @@ const TOP_NAV = [
   {
     to: '/catalog?category=Home',
     id: 'homecat',
-    label: 'Home',
+    label: 'Home & Kitchen',
     match: 'homecat',
   },
   {

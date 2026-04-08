@@ -270,6 +270,17 @@ main.site-main {
   max-width: 1500px;
   margin: 0 auto;
   scroll-snap-type: x mandatory;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+
+.deals-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.deals-scroll::-webkit-scrollbar-thumb {
+  background: #c7cbcb;
+  border-radius: 4px;
 }
 
 .deal-card {
@@ -281,9 +292,19 @@ main.site-main {
   scroll-snap-align: start;
 }
 
-.deal-card img {
-  width: 100%;
+/* Image frame: consistent tile, neutral fill if asset is slow or fails */
+.deal-card > a:first-of-type {
+  display: block;
   aspect-ratio: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #eef0f2;
+}
+
+.deal-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 4px;
 }
