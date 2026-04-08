@@ -18,21 +18,23 @@ import './paavan.css';
 import './App.css';
 
 function App() {
-  // Defer hiding the static HTML fallback until after the browser paints the
-  // React tree. Adding `react-app-mounted` too early hides the crawl block while
-  // #root still looks empty (gray body only).
+  // Only hide the static crawl block once the real app shell exists. Otherwise
+  // display:none runs while #root is still empty → gray screen on some prod timings.
   useEffect(() => {
     let cancelled = false;
-    let innerRaf = 0;
-    const outerRaf = requestAnimationFrame(() => {
-      innerRaf = requestAnimationFrame(() => {
-        if (!cancelled) document.body.classList.add('react-app-mounted');
-      });
-    });
+    let raf = 0;
+    function tick() {
+      if (cancelled) return;
+      if (document.querySelector('#root .App')) {
+        document.body.classList.add('react-app-mounted');
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
     return () => {
       cancelled = true;
-      cancelAnimationFrame(outerRaf);
-      cancelAnimationFrame(innerRaf);
+      cancelAnimationFrame(raf);
       document.body.classList.remove('react-app-mounted');
     };
   }, []);

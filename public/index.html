@@ -96,24 +96,38 @@
       </main>
     </div><!--CRAWL_SHELL_END-->
   </div>
-  <div id="root"></div>
-  <!-- CleverPush: sdk + init only (channel loader duplicates the SDK and breaks prod). -->
-  <script src="https://static.cleverpush.com/sdk/cleverpush.js"></script>
-  <script src="https://static.cleverpush.com/channel/loader/mej3qrfkS5mNXysgr.js" async></script>
+  <div id="root">
+    <div class="root-boot" aria-live="polite" style="padding:24px 16px;font-family:system-ui,sans-serif;color:#0f1111">
+      Loading shop…
+    </div>
+  </div>
+  <!-- CleverPush: injected on window.load after React (defer); do not add channel/loader (duplicate SDK). -->
   <script>
-    try {
-      if (typeof CleverPush !== 'undefined') {
-        CleverPush.init({
-          channelId: 'mej3qrfkS5mNXysgr',
-          apiEndpoint: 'https://api.cleverpush.com',
-          loadIframe: false,
-          autoRegister: true,
-          showNotificationBell: true,
-        });
+    (function () {
+      function startCleverPush() {
+        var s = document.createElement('script');
+        s.src = 'https://static.cleverpush.com/sdk/cleverpush.js';
+        s.async = true;
+        s.onload = function () {
+          try {
+            if (typeof CleverPush !== 'undefined') {
+              CleverPush.init({
+                channelId: 'mej3qrfkS5mNXysgr',
+                apiEndpoint: 'https://api.cleverpush.com',
+                loadIframe: false,
+                autoRegister: true,
+                showNotificationBell: true,
+              });
+            }
+          } catch (e) {
+            console.warn('CleverPush.init failed', e);
+          }
+        };
+        document.body.appendChild(s);
       }
-    } catch (e) {
-      console.warn('CleverPush.init failed', e);
-    }
+      if (document.readyState === 'complete') startCleverPush();
+      else window.addEventListener('load', startCleverPush);
+    })();
   </script>
 </body>
 
