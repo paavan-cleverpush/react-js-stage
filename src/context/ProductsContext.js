@@ -1,48 +1,15 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useMemo,
-  useState,
 } from 'react';
+
+import { productsFromThaliaMeta } from '../data/thaliaMeta';
 
 const ProductsContext = createContext(null);
 
 export function ProductsProvider({ children }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    const raw = process.env.PUBLIC_URL || '';
-    let path = `${raw.replace(/\/$/, '')}/products.json`.replace(/\/+/g, '/');
-    if (path.startsWith('http')) {
-      try {
-        path = new URL(path).pathname || '/products.json';
-      } catch {
-        path = '/products.json';
-      }
-    }
-    if (!path.startsWith('/')) path = `/${path}`;
-    fetch(path)
-      .then((r) => {
-        if (!r.ok) throw new Error('Failed to load catalogue');
-        return r.json();
-      })
-      .then((data) => {
-        if (!cancelled) setProducts(Array.isArray(data) ? data : []);
-      })
-      .catch((e) => {
-        if (!cancelled) setError(e.message || 'Load error');
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const products = useMemo(() => productsFromThaliaMeta(), []);
 
   const getById = useMemo(() => {
     const map = new Map(products.map((p) => [p.id, p]));
@@ -50,8 +17,13 @@ export function ProductsProvider({ children }) {
   }, [products]);
 
   const value = useMemo(
-    () => ({ products, loading, error, getById }),
-    [products, loading, error, getById]
+    () => ({
+      products,
+      loading: false,
+      error: null,
+      getById,
+    }),
+    [products, getById]
   );
 
   return (
